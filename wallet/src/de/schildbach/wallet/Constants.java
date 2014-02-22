@@ -30,7 +30,7 @@ import com.google.bitcoin.params.MainNetParams;
 import com.google.bitcoin.params.TestNet3Params;
 
 import de.schildbach.wallet_ltc.R;
-import org.litecoin.LitecoinParams;
+import org.auroracoin.AuroraCoinParams;
 
 /**
  * @author Andreas Schildbach, Litecoin Dev Team
@@ -39,8 +39,8 @@ public class Constants
 {
 	public static final boolean TEST = R.class.getPackage().getName().contains("_test");
 
-	public static final NetworkParameters NETWORK_PARAMETERS = LitecoinParams.get();
-	private static final String FILENAME_NETWORK_SUFFIX = "litecoin";
+	public static final NetworkParameters NETWORK_PARAMETERS = AuroraCoinParams.get();
+	private static final String FILENAME_NETWORK_SUFFIX = "auroracoin";
 
 	public static final String WALLET_FILENAME = "wallet" + FILENAME_NETWORK_SUFFIX;
 
@@ -49,28 +49,28 @@ public class Constants
 	public static final String WALLET_KEY_BACKUP_BASE58 = "key-backup-base58" + FILENAME_NETWORK_SUFFIX;
 
 	public static final File EXTERNAL_WALLET_BACKUP_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-	public static final String EXTERNAL_WALLET_KEY_BACKUP = "litecoin-wallet-keys";
+	public static final String EXTERNAL_WALLET_KEY_BACKUP = "auroracoin-wallet-keys";
 
 	public static final String BLOCKCHAIN_FILENAME = "blockchain" + FILENAME_NETWORK_SUFFIX;
 
 	public static final String CHECKPOINTS_FILENAME = "checkpoints" + FILENAME_NETWORK_SUFFIX;
 
-    private static final String EXPLORE_BASE_URL_PROD = "http://ltc.block-explorer.com/";
-    private static final String EXPLORE2_BASE_URL_PROD = "http://explorer.litecoin.net/";
+    private static final String EXPLORE_BASE_URL_PROD = "http://blockexplorer.auroracoin.eu/";
+    private static final String EXPLORE2_BASE_URL_PROD = "http://auroraexplorer.atorox.net/";
     public static final String EXPLORE_BASE_URL = EXPLORE_BASE_URL_PROD;
     public static final String EXPLORE2_BASE_URL = EXPLORE2_BASE_URL_PROD;
 
 	public static final String MIMETYPE_TRANSACTION = "application/x-ltctx";
 
 	public static final int MAX_NUM_CONFIRMATIONS = 7;
-	public static final String USER_AGENT = "Litecoin Wallet";
+	public static final String USER_AGENT = "Auroracoin Wallet";
 	public static final String DEFAULT_EXCHANGE_CURRENCY = "USD";
 	public static final int WALLET_OPERATION_STACK_SIZE = 256 * 1024;
 	public static final long BLOCKCHAIN_STATE_BROADCAST_THROTTLE_MS = DateUtils.SECOND_IN_MILLIS;
 	public static final long BLOCKCHAIN_UPTODATE_THRESHOLD_MS = DateUtils.HOUR_IN_MILLIS;
 
-	public static final String CURRENCY_CODE_BTC = "LTC";
-	public static final String CURRENCY_CODE_MBTC = "mLTC";
+	public static final String CURRENCY_CODE_BTC = "AUR";
+	public static final String CURRENCY_CODE_MBTC = "mAUR";
 	public static final char CHAR_HAIR_SPACE = '\u200a';
 	public static final char CHAR_THIN_SPACE = '\u2009';
 	public static final char CHAR_ALMOST_EQUAL_TO = '\u2248';
@@ -88,7 +88,7 @@ public class Constants
 	public static final int MBTC_MAX_PRECISION = 5;
 	public static final int LOCAL_PRECISION = 4;
 
-	public static final String DONATION_ADDRESS = "LPwViUHsXXKWp65ZxVqag7B3wmbmo4Zfd2";
+	public static final String DONATION_ADDRESS = "AKFhny5tdJSTiSBRgBzpQzE5e66tEA3j1T";
 	public static final String REPORT_EMAIL = "dev@litecoin.org";
 	public static final String REPORT_SUBJECT_ISSUE = "Reported issue";
 	public static final String REPORT_SUBJECT_CRASH = "Crash report";
