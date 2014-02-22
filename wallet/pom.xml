@@ -7,7 +7,7 @@
 	<artifactId>wallet</artifactId>
 	<packaging>apk</packaging>
 	<version>3.30.7</version>
-	<name>Litecoin Wallet</name>
+	<name>AuroraCoin Wallet</name>
 
 	<parent>
 		<groupId>de.schildbach.wallet</groupId>
@@ -187,10 +187,10 @@
                             </includes>
                             <keystore>${sign.keystore}</keystore>
                             <alias>${sign.alias}</alias>
-                            <storepass>${sign.storepass}</storepass>
-                            <keypass>${sign.keypass}</keypass>
+                            <storepass>AuroraCoin</storepass>
+                            <keypass>AuroraCoin</keypass>
                             <verbose>true</verbose>
-                            <alias>litecoin-project</alias>
+                            <alias>nite69</alias>
                             <arguments>
                                 <argument>-sigalg</argument><argument>MD5withRSA</argument>
                                 <argument>-digestalg</argument><argument>SHA1</argument>
