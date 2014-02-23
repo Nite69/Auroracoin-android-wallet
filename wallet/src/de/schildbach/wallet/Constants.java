@@ -37,7 +37,7 @@ import org.auroracoin.AuroraCoinParams;
  */
 public class Constants
 {
-	public static final boolean TEST = true; //R.class.getPackage().getName().contains("_test");
+	public static final boolean TEST = R.class.getPackage().getName().contains("_test");
 
 	public static final NetworkParameters NETWORK_PARAMETERS = AuroraCoinParams.get();
 	private static final String FILENAME_NETWORK_SUFFIX = "auroracoin";
@@ -60,7 +60,7 @@ public class Constants
     public static final String EXPLORE_BASE_URL = EXPLORE_BASE_URL_PROD;
     public static final String EXPLORE2_BASE_URL = EXPLORE2_BASE_URL_PROD;
 
-	public static final String MIMETYPE_TRANSACTION = "application/x-ltctx";
+	public static final String MIMETYPE_TRANSACTION = "application/x-aurtx";
 
 	public static final int MAX_NUM_CONFIRMATIONS = 7;
 	public static final String USER_AGENT = "Auroracoin Wallet";

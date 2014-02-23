@@ -4,7 +4,7 @@
 	package="de.schildbach.wallet_ltc"
 	android:installLocation="internalOnly"
 	android:versionCode="161"
-	android:versionName="3.30.7" >
+	android:versionName="1.0.0" >
 
 	<uses-sdk
 		android:minSdkVersion="10"
@@ -73,7 +73,7 @@
 			<intent-filter>
 				<action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
-				<data android:mimeType="application/x-ltctx" />
+				<data android:mimeType="application/x-aurtx" />
 
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
