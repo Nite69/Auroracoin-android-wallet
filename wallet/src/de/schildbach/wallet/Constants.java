@@ -37,7 +37,7 @@ import org.auroracoin.AuroraCoinParams;
  */
 public class Constants
 {
-	public static final boolean TEST = R.class.getPackage().getName().contains("_test");
+	public static final boolean TEST = true; //R.class.getPackage().getName().contains("_test");
 
 	public static final NetworkParameters NETWORK_PARAMETERS = AuroraCoinParams.get();
 	private static final String FILENAME_NETWORK_SUFFIX = "auroracoin";
