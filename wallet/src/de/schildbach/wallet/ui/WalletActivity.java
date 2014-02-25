@@ -129,11 +129,13 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 	@Override
 	protected void onResume()
 	{
+		log.info("WalletActivity, onresume start");
 		super.onResume();
 
 		getWalletApplication().startBlockchainService(true);
 
 		checkLowStorageAlert();
+		log.info("WalletActivity, onresume done");
 	}
 
 	@Override
@@ -605,6 +607,7 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 
 	private void checkLowStorageAlert()
 	{
+		log.info("checkLowStorageAlert");
 		final Intent stickyIntent = registerReceiver(null, new IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW));
 		if (stickyIntent != null)
 		{

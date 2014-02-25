@@ -479,6 +479,7 @@ public class WalletApplication extends Application
 
 	public void startBlockchainService(final boolean cancelCoinsReceived)
 	{
+		log.info("startBlockchainService "+cancelCoinsReceived);
 		if (cancelCoinsReceived)
 			startService(blockchainServiceCancelCoinsReceivedIntent);
 		else
@@ -487,6 +488,7 @@ public class WalletApplication extends Application
 
 	public void stopBlockchainService()
 	{
+		log.info("stopBlockchainService");
 		stopService(blockchainServiceIntent);
 	}
 
