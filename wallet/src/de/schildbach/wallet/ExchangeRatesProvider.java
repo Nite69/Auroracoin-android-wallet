@@ -153,17 +153,20 @@ public class ExchangeRatesProvider extends ContentProvider
 			{
                 // Get USD conversion exchange rates from Google
                 ExchangeRate usdRate = newExchangeRates.get("USD");
-                RateProvider providers[] = {new GoogleRatesProvider(), new YahooRatesProvider()};
-                Map<String, ExchangeRate> fiatRates;
-                for(RateProvider provider : providers) {
-                    fiatRates = provider.getRates(usdRate);
-                    if(fiatRates != null) {
-                        // Remove EUR if we have a better source above
-                        if(euroRate != null)
-                            fiatRates.remove("EUR");
-                        newExchangeRates.putAll(fiatRates);
-                        break;
-                    }
+                if (usdRate != null) 
+    			{
+	                RateProvider providers[] = {new GoogleRatesProvider(), new YahooRatesProvider()};
+	                Map<String, ExchangeRate> fiatRates;
+	                for(RateProvider provider : providers) {
+	                    fiatRates = provider.getRates(usdRate);
+	                    if(fiatRates != null) {
+	                        // Remove EUR if we have a better source above
+	                        if(euroRate != null)
+	                            fiatRates.remove("EUR");
+	                        newExchangeRates.putAll(fiatRates);
+	                        break;
+	                    }
+	                }
                 }
 
 				exchangeRates = newExchangeRates;
