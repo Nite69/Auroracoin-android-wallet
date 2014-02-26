@@ -40,6 +40,7 @@ import android.util.Log;
 import com.google.bitcoin.script.Script;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.auroracoin.AuroraBlockChain;
 import org.auroracoin.AuroraCoinPeerDBDiscovery;
 
 import android.annotation.SuppressLint;
@@ -109,7 +110,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 
 	private BlockStore blockStore;
 	private File blockChainFile;
-	private BlockChain blockChain;
+	private AuroraBlockChain blockChain;
 	@CheckForNull
 	private PeerGroup peerGroup;
 
@@ -703,7 +704,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 
 		try
 		{
-			blockChain = new BlockChain(Constants.NETWORK_PARAMETERS, wallet, blockStore);
+			blockChain = new AuroraBlockChain(Constants.NETWORK_PARAMETERS, wallet, blockStore);
 		}
 		catch (final BlockStoreException x)
 		{
