@@ -82,6 +82,7 @@ import com.google.bitcoin.core.Wallet;
 import com.google.bitcoin.core.Wallet.BalanceType;
 import com.google.bitcoin.core.WalletEventListener;
 import com.google.bitcoin.net.discovery.DnsDiscovery;
+import com.google.bitcoin.net.discovery.IrcDiscovery;
 //import com.google.bitcoin.net.discovery.IrcDiscovery;
 import com.google.bitcoin.net.discovery.PeerDiscovery;
 import com.google.bitcoin.net.discovery.PeerDiscoveryException;
@@ -273,18 +274,6 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 			log.info("peer disconnected, peernum: " + peerCount );
 			this.peerCount = peerCount;
 			changed(peerCount);
-			if ((peerCount<1) && (peerGroup != null))
-			{
-				final Wallet wallet = application.getWallet();
-				log.info("stopping peergroup");
-				peerGroup.removeEventListener(peerConnectivityListener);
-				peerGroup.removeWallet(wallet);
-				peerGroup.stop();
-				peerGroup = null;
-
-				log.debug("releasing wakelock");
-				wakeLock.release();
-			}
 		}
 
 		@Override
@@ -363,7 +352,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 
 	private final BroadcastReceiver connectivityReceiver = new BroadcastReceiver()
 	{
-		private boolean hasConnectivity;
+		private boolean hasConnectivity = true; //assume true so we don't shut all down before we even tried
 		private boolean hasStorage = true;
         private final String TAG = BroadcastReceiver.class.getName();
 
@@ -435,15 +424,16 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 					private final PeerDiscovery normalPeerDiscovery = new DnsDiscovery(Constants.NETWORK_PARAMETERS);
                     private PeerDiscovery dbPeerDiscovery = null;
                     //Random rand = new Random();
-                    //int i = rand.nextInt(50);
+                    //int i = 0; //rand.nextInt(50);
                     //String channel = "#AuroraCoin" + String.format("%02d", i);
-                    //private final PeerDiscovery fallbackPeerDiscovery = new IrcDiscovery(channel);
+                    String channel = "#AuroraCoin00";
+                    private final PeerDiscovery fallbackPeerDiscovery = new IrcDiscovery(channel);
                     
 					@Override
 					public InetSocketAddress[] getPeers(final long timeoutValue, final TimeUnit timeoutUnit) throws PeerDiscoveryException
 					{
                         try {
-                            Log.i(TAG, "Adding PeerDBDiscovery");
+							log.info("Adding PeerDBDiscovery" );
                             dbPeerDiscovery = new AuroraCoinPeerDBDiscovery(Constants.NETWORK_PARAMETERS,
                                     getFileStreamPath("auroracoin.peerdb"), peerGroup);
                         } catch(IllegalStateException e) {
@@ -470,15 +460,15 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 							peers.addAll(Arrays.asList(normalPeerDiscovery.getPeers(timeoutValue, timeoutUnit)));
                             if(dbPeerDiscovery != null)
                                 peers.addAll(Arrays.asList(dbPeerDiscovery.getPeers(1, TimeUnit.SECONDS)));
-                            //if (peers.size() < 4)
-                            //{
-                            //    try {
-                            //    	if (fallbackPeerDiscovery != null)
-                            //    		peers.addAll(Arrays.asList(fallbackPeerDiscovery.getPeers(timeoutValue, timeoutUnit)));
-                            //    } catch (PeerDiscoveryException e) {
-                            //        log.info(this.getClass().toString(), "Failed to discover IRC peers: " + e.getMessage());
-                            //    }
-                            //}                            
+                            //if (peers.size() < 1)
+                            {
+                                try {
+                                	if (fallbackPeerDiscovery != null)
+                                		peers.addAll(Arrays.asList(fallbackPeerDiscovery.getPeers(timeoutValue, timeoutUnit)));
+                                } catch (PeerDiscoveryException e) {
+                                    log.info(this.getClass().toString(), "Failed to discover IRC peers: " + e.getMessage());
+                                }
+                            }                            
                         }
 
 						// workaround because PeerGroup will shuffle peers
@@ -504,7 +494,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 			}
 			else if (!hasEverything && peerGroup != null)
 			{
-				log.info("stopping peergroup");
+				log.info("Does not has everything, stopping peergroup");
 				peerGroup.removeEventListener(peerConnectivityListener);
 				peerGroup.removeWallet(wallet);
 				peerGroup.stop();
