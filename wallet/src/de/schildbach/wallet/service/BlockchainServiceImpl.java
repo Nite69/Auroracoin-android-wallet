@@ -443,6 +443,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 					public InetSocketAddress[] getPeers(final long timeoutValue, final TimeUnit timeoutUnit) throws PeerDiscoveryException
 					{
                         try {
+                            Log.i(TAG, "Adding PeerDBDiscovery");
                             dbPeerDiscovery = new AuroraCoinPeerDBDiscovery(Constants.NETWORK_PARAMETERS,
                                     getFileStreamPath("auroracoin.peerdb"), peerGroup);
                         } catch(IllegalStateException e) {
