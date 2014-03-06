@@ -460,18 +460,25 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 							}
 						}
 
+						log.info("Peer count "+ peers.size());
 						if (!connectTrustedPeerOnly) {
+							log.info("Addind dnsdiscovery peers ");
 							peers.addAll(Arrays.asList(normalPeerDiscovery.getPeers(timeoutValue, timeoutUnit)));
+							log.info("Peer count "+ peers.size());
+							log.info("Addind dbdiscovery peers ");
                             if(dbPeerDiscovery != null)
                                 peers.addAll(Arrays.asList(dbPeerDiscovery.getPeers(1, TimeUnit.SECONDS)));
+							log.info("Peer count "+ peers.size());
                             //if (peers.size() < 1)
                             {
+    							log.info("Addind ircdiscovery peers ");
                                 try {
                                 	if (fallbackPeerDiscovery != null)
                                 		peers.addAll(Arrays.asList(fallbackPeerDiscovery.getPeers(timeoutValue, timeoutUnit)));
                                 } catch (PeerDiscoveryException e) {
                                     log.info(this.getClass().toString(), "Failed to discover IRC peers: " + e.getMessage());
                                 }
+    							log.info("Peer count "+ peers.size());
                             }                            
                         }
 
@@ -479,7 +486,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 						if (needsTrimPeersWorkaround)
 							while (peers.size() >= maxConnectedPeers)
 								peers.remove(peers.size() - 1);
-
+                        log.info(this.getClass().toString(), "Returning : " + peers.size() + " peers");
 						return peers.toArray(new InetSocketAddress[0]);
 					}
 

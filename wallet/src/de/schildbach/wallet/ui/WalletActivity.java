@@ -192,12 +192,21 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 	@Override
 	public void onActivityResult(final int requestCode, final int resultCode, final Intent intent)
 	{
-        final String input;
+        String input;
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         /* Check if user wants to use internal scanner */
         if(prefs.getString(Constants.PREFS_KEY_QR_SCANNER, "").equals("internal"))
         {
-            input = intent.getStringExtra(ScanActivity.INTENT_EXTRA_RESULT);
+			try
+			{
+	            input = intent.getStringExtra(ScanActivity.INTENT_EXTRA_RESULT);
+			}
+			catch (final Exception x)
+			{
+				input = null;
+				log.error("Problem using internal QR scanner");
+			}
+
         }
         else
         {
@@ -216,13 +225,13 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
             {
         		final Address selectedAddress = application.determineSelectedAddress();
         		final String totalHttp = httpAddress+"&addr="+selectedAddress;
-				log.debug("Claiming airdrop coins with " + totalHttp);
+				log.info("Claiming airdrop coins with " + totalHttp);
         		new HttpGetThread(getAssets(), totalHttp)
         		{
         			@Override
         			protected void handleLine(final String line, final long serverTime)
         			{
-        				log.debug("Got reply: " + line);
+        				log.info("Got reply: " + line);
         			}
 
         			@Override
@@ -231,7 +240,7 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
         				if (x instanceof UnknownHostException || x instanceof SocketException || x instanceof SocketTimeoutException)
         				{
         					// swallow
-        					log.debug("problem reading", x);
+        					log.warn("problem reading", x);
         				}
         				else
         				{
