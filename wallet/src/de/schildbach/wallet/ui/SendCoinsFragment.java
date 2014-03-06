@@ -521,6 +521,12 @@ public final class SendCoinsFragment extends SherlockFragment
 
 		new StringInputParser(input)
 		{
+        	@Override
+        	protected void bitcoinClaimRequest(@Nonnull final String httpAddress)
+            {
+				cannotClassify(input);
+			}
+			
 			@Override
 			protected void bitcoinRequest(@Nonnull final Address address, final String addressLabel, final BigInteger amount, final String bluetoothMac)
 			{
@@ -677,6 +683,12 @@ public final class SendCoinsFragment extends SherlockFragment
 
             new StringInputParser(input)
             {
+	        	@Override
+	        	protected void bitcoinClaimRequest(@Nonnull final String httpAddress)
+	            {
+					cannotClassify(input);
+				}
+				
                 @Override
                 protected void bitcoinRequest(@Nonnull final Address address, final String addressLabel, final BigInteger amount, final String bluetoothMac)
                 {

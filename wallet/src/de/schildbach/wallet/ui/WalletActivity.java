@@ -156,6 +156,12 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 
 			new BinaryInputParser(inputType, input)
 			{
+	        	@Override
+	        	protected void bitcoinClaimRequest(@Nonnull final String httpAddress)
+	            {
+					cannotClassify(inputType);
+				}
+				
 				@Override
 				protected void bitcoinRequest(@Nonnull final Address address, final String addressLabel, final BigInteger amount, final String bluetoothMac)
 				{
@@ -204,7 +210,39 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 
         new StringInputParser(input)
         {
-            @Override
+        	
+        	@Override
+        	protected void bitcoinClaimRequest(@Nonnull final String httpAddress)
+            {
+        		final Address selectedAddress = application.determineSelectedAddress();
+        		final String totalHttp = httpAddress+"&addr="+selectedAddress;
+				log.debug("Claiming airdrop coins with " + totalHttp);
+        		new HttpGetThread(getAssets(), totalHttp)
+        		{
+        			@Override
+        			protected void handleLine(final String line, final long serverTime)
+        			{
+        				log.debug("Got reply: " + line);
+        			}
+
+        			@Override
+        			protected void handleException(final Exception x)
+        			{
+        				if (x instanceof UnknownHostException || x instanceof SocketException || x instanceof SocketTimeoutException)
+        				{
+        					// swallow
+        					log.debug("problem reading", x);
+        				}
+        				else
+        				{
+        					final PackageInfo packageInfo = getWalletApplication().packageInfo();
+        					CrashReporter.saveBackgroundTrace(new RuntimeException(httpAddress, x), packageInfo);
+        				}
+        			}
+        		}.start();
+            }
+
+        	@Override
             protected void bitcoinRequest(@Nonnull final Address address, final String addressLabel, final BigInteger amount, final String bluetoothMac)
             {
                 SendCoinsActivity.start(WalletActivity.this, address.toString(), addressLabel, amount, bluetoothMac);
@@ -636,6 +674,7 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 		final String base = Constants.VERSION_URL + (versionNameSplit >= 0 ? packageInfo.versionName.substring(versionNameSplit) : "");
 		final String url = base + "?current=" + packageInfo.versionCode;
 
+		/*
 		new HttpGetThread(getAssets(), url)
 		{
 			@Override
@@ -697,7 +736,7 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 				}
 			}
 		}.start();
-
+		*/
 		if (CrashReporter.hasSavedCrashTrace())
 		{
 			final StringBuilder stackTrace = new StringBuilder();

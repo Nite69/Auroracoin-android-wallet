@@ -67,12 +67,19 @@ public abstract class InputParser
 				try
 				{
 					final BitcoinURI bitcoinUri = new BitcoinURI(Constants.NETWORK_PARAMETERS, input);
-					final Address address = bitcoinUri.getAddress();
-					final String addressLabel = bitcoinUri.getLabel();
-					final BigInteger amount = bitcoinUri.getAmount();
-					final String bluetoothMac = (String) bitcoinUri.getParameterByName(Bluetooth.MAC_URI_PARAM);
-
-					bitcoinRequest(address, addressLabel, amount, bluetoothMac);
+					final String httpAddress = bitcoinUri.getHttpAddress();
+					if (httpAddress != null) 
+					{
+						bitcoinClaimRequest(httpAddress);
+					} else 
+					{
+						final Address address = bitcoinUri.getAddress();
+						final String addressLabel = bitcoinUri.getLabel();
+						final BigInteger amount = bitcoinUri.getAmount();
+						final String bluetoothMac = (String) bitcoinUri.getParameterByName(Bluetooth.MAC_URI_PARAM);
+	
+						bitcoinRequest(address, addressLabel, amount, bluetoothMac);
+					}
 				}
 				catch (final BitcoinURIParseException x)
 				{
@@ -168,6 +175,8 @@ public abstract class InputParser
 
 	public abstract void parse();
 
+	protected abstract void bitcoinClaimRequest(@Nonnull final String httpAddress);
+	
 	protected abstract void bitcoinRequest(@Nonnull Address address, @Nullable String addressLabel, @Nullable BigInteger amount,
 			@Nullable String bluetoothMac);
 

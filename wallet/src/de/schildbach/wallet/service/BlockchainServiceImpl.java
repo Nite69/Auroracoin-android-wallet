@@ -433,10 +433,14 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 					public InetSocketAddress[] getPeers(final long timeoutValue, final TimeUnit timeoutUnit) throws PeerDiscoveryException
 					{
                         try {
-							log.info("Adding PeerDBDiscovery" );
-                            dbPeerDiscovery = new AuroraCoinPeerDBDiscovery(Constants.NETWORK_PARAMETERS,
-                                    getFileStreamPath("auroracoin.peerdb"), peerGroup);
+                        	if (dbPeerDiscovery == null) 
+        					{
+								log.info("Adding PeerDBDiscovery" );
+	                            dbPeerDiscovery = new AuroraCoinPeerDBDiscovery(Constants.NETWORK_PARAMETERS,
+	                                    getFileStreamPath("auroracoin.peerdb"), peerGroup);
+        					}
                         } catch(IllegalStateException e) {
+                        	dbPeerDiscovery = null;
                             // This can happen in the guts of bitcoinj
                             Log.i(TAG, "IllegalStateException in bitcoinj: " + e.getMessage());
                         }

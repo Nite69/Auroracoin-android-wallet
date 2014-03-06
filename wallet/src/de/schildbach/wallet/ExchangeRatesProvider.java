@@ -90,20 +90,30 @@ public class ExchangeRatesProvider extends ContentProvider
 	private Map<String, ExchangeRate> exchangeRates = null;
 	private long lastUpdated = 0;
 
-    private static final URL BTCE_URL;
-    private static final String[] BTCE_FIELDS = new String[] { "avg" };
-    private static final URL BTCE_EURO_URL;
-    private static final String[] BTCE_EURO_FIELDS = new String[] { "avg" };
-	private static final URL VIRCUREX_URL;
-	private static final String[] VIRCUREX_FIELDS = new String[] { "value" };
+    //private static final URL BTCE_URL;
+    //private static final String[] BTCE_FIELDS = new String[] { "avg" };
+    //private static final URL BTCE_EURO_URL;
+    //private static final String[] BTCE_EURO_FIELDS = new String[] { "avg" };
+	//private static final URL VIRCUREX_URL;
+	//private static final String[] VIRCUREX_FIELDS = new String[] { "value" };
+	private static final URL CRYPTSY_URL;
+	private static final String[] CRYPTSY_FIELDS = new String[] { "lasttradeprice" };
 
+	private static final URL BTCE_BTC_USD_URL;
+    private static final String[] BTCE_BTC_USD_URL_FIELDS = new String[] { "avg" };
+    private static final URL BTCE_BTC_EUR_URL;
+    private static final String[] BTCE_BTC_EUR_URL_FIELDS = new String[] { "avg" };
+	
 	static
 	{
 		try
 		{
-            BTCE_URL = new URL("https://btc-e.com/api/2/ltc_usd/ticker");
-            BTCE_EURO_URL = new URL("https://btc-e.com/api/2/ltc_eur/ticker");
-            VIRCUREX_URL = new URL("https://api.vircurex.com/api/get_last_trade.json?base=LTC&alt=USD");
+            //BTCE_URL = new URL("https://btc-e.com/api/2/ltc_usd/ticker");
+            //BTCE_EURO_URL = new URL("https://btc-e.com/api/2/ltc_eur/ticker");
+            //VIRCUREX_URL = new URL("https://api.vircurex.com/api/get_last_trade.json?base=LTC&alt=USD");
+            CRYPTSY_URL = new URL("http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=160");
+            BTCE_BTC_USD_URL = new URL("https://btc-e.com/api/2/btc_usd/ticker");
+            BTCE_BTC_EUR_URL = new URL("https://btc-e.com/api/2/btc_eur/ticker");
 		}
 		catch (final MalformedURLException x)
 		{
@@ -134,35 +144,74 @@ public class ExchangeRatesProvider extends ContentProvider
 		if (exchangeRates == null || now - lastUpdated > UPDATE_FREQ_MS)
 		{
 			Map<String, ExchangeRate> newExchangeRates = null;
-            // Attempt to get USD exchange rates from all providers.  Stop after first.
+
 			if (exchangeRates == null)
-				newExchangeRates = requestExchangeRates(BTCE_URL, "USD", BTCE_FIELDS);
-			if (exchangeRates == null && newExchangeRates == null)
-				newExchangeRates = requestExchangeRates(VIRCUREX_URL, "USD", VIRCUREX_FIELDS);
+				newExchangeRates = requestExchangeRates(CRYPTSY_URL, "BTC", CRYPTSY_FIELDS);
+			// Attempt to get USD exchange rates from all providers.  Stop after first.
+			//if (exchangeRates == null)
+			//	newExchangeRates = requestExchangeRates(BTCE_URL, "USD", BTCE_FIELDS);
+			//if (exchangeRates == null && newExchangeRates == null)
+			//	newExchangeRates = requestExchangeRates(VIRCUREX_URL, "USD", VIRCUREX_FIELDS);
 
             // Get Euro rates as a fallback if Yahoo! fails below
-            Map<String, ExchangeRate> euroRate = requestExchangeRates(BTCE_EURO_URL, "EUR", BTCE_EURO_FIELDS);
-            if(euroRate != null) {
-                if(newExchangeRates != null)
-                    newExchangeRates.putAll(euroRate);
-                else
-                    newExchangeRates = euroRate;
+            Map<String, ExchangeRate> btcEurRates = requestExchangeRates(BTCE_BTC_EUR_URL, "EUR", BTCE_BTC_EUR_URL_FIELDS);
+            //requestExchangeRates(BTCE_EURO_URL, "EUR", BTCE_EURO_FIELDS);
+            Map<String, ExchangeRate> btcUsdRates = requestExchangeRates(BTCE_BTC_USD_URL, "USD", BTCE_BTC_USD_URL_FIELDS);
+            //requestExchangeRates(BTCE_EURO_URL, "EUR", BTCE_EURO_FIELDS);
+            //if(euroRate != null) {
+            //    if(newExchangeRates != null)
+            //        newExchangeRates.putAll(euroRate);
+            //    else
+            //        newExchangeRates = euroRate;
+            //}
+			if (newExchangeRates != null)
+			{ // generate AUR -> USD rate from AUR -> BTC -> USD
+				log.info("Generating aur-> usd and aur->eur");
+    			ExchangeRate aurBtcRate = newExchangeRates.get("BTC");
+    			ExchangeRate btcUsdRate = btcUsdRates.get("USD");
+    			ExchangeRate btcEurRate = btcEurRates.get("EUR");
+    			if (aurBtcRate != null)
+				{
+    				log.info("aurBTC rate found, generating btc-> usd and btc->eur");
+		            if (btcUsdRate != null)
+					{
+	    				log.info("BTCUSD rate found, generating btc-> usd");
+		    			Map<String, ExchangeRate> newAurUsdRates = new TreeMap<String, ExchangeRate>();
+		    			BigInteger rate = aurBtcRate.rate.multiply(btcUsdRate.rate);
+		    			rate = rate.divide(BigInteger.valueOf(100000000));
+		    			ExchangeRate AurUsdRate = new ExchangeRate("USD", rate, aurBtcRate.source+"--"+btcUsdRate.source);
+	    				log.info("AUR -> USD "+rate);
+	    				newExchangeRates.put("USD", AurUsdRate);
+		            }
+		            if (btcEurRate != null)
+					{
+	    				log.info("BTCEUR rate found, generating btc-> EUR");
+		    			Map<String, ExchangeRate> newAurEurRates = new TreeMap<String, ExchangeRate>();
+		    			BigInteger rate = aurBtcRate.rate.multiply(btcEurRate.rate);
+		    			rate = rate.divide(BigInteger.valueOf(100000000));
+		    			ExchangeRate AurEurRate = new ExchangeRate("EUR", rate, aurBtcRate.source+"--"+btcEurRate.source);
+		    			newExchangeRates.put("EUR", AurEurRate);
+	    				log.info("AUR -> EUR "+rate);
+		            }
+	            }
             }
-
+            
+            
             if (newExchangeRates != null)
 			{
                 // Get USD conversion exchange rates from Google
                 ExchangeRate usdRate = newExchangeRates.get("USD");
                 if (usdRate != null) 
     			{
+    				log.info("getting Google rates & Yahoo rates ");
 	                RateProvider providers[] = {new GoogleRatesProvider(), new YahooRatesProvider()};
 	                Map<String, ExchangeRate> fiatRates;
 	                for(RateProvider provider : providers) {
 	                    fiatRates = provider.getRates(usdRate);
 	                    if(fiatRates != null) {
 	                        // Remove EUR if we have a better source above
-	                        if(euroRate != null)
-	                            fiatRates.remove("EUR");
+	                        //if(euroRate != null)
+	                        //    fiatRates.remove("EUR");
 	                        newExchangeRates.putAll(fiatRates);
 	                        break;
 	                    }
@@ -257,6 +306,39 @@ public class ExchangeRatesProvider extends ContentProvider
 		throw new UnsupportedOperationException();
 	}
 
+	
+	private static String digJSONObject(final JSONObject blob, final String field, final int depth) { 
+		for (final Iterator<String> i = blob.keys(); i.hasNext();)
+		{
+			String nextField = i.next();
+			log.info("Iterating level "+depth+":"+i);
+			final JSONObject o = blob.optJSONObject(nextField);
+			if (o != null)
+			{
+				final String value = digJSONObject(o, field, depth+1);
+		    	if (value != null) 
+				{
+		    		return value;
+			    }
+			} else { // simple value, leaf
+				if (field.equals(nextField)) 
+				{
+					log.info("leaf "+nextField+ " FOUND");
+			    	final String value = blob.optString(nextField, null);
+			    	if (value != null) 
+					{
+						log.info(nextField + " = " + value);
+			    		return value;
+				    }
+			    } else 
+				{
+					log.info("leaf "+nextField);
+			    }
+		    }
+		} 	
+		return null;
+	} 	
+
 	private static Map<String, ExchangeRate> requestExchangeRates(final URL url, final String currencyCode, final String... fields)
 	{
 		HttpURLConnection connection = null;
@@ -264,6 +346,7 @@ public class ExchangeRatesProvider extends ContentProvider
 
 		try
 		{
+			log.info("requestExchangeRates connecting to : " + url);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setConnectTimeout(Constants.HTTP_TIMEOUT_MS);
 			connection.setReadTimeout(Constants.HTTP_TIMEOUT_MS);
@@ -272,6 +355,7 @@ public class ExchangeRatesProvider extends ContentProvider
 			final int responseCode = connection.getResponseCode();
 			if (responseCode == HttpURLConnection.HTTP_OK)
 			{
+				log.info("Got response, parsing ");
 				reader = new InputStreamReader(new BufferedInputStream(connection.getInputStream(), 1024), Constants.UTF_8);
 				final StringBuilder content = new StringBuilder();
 				Io.copy(reader, content);
@@ -279,25 +363,54 @@ public class ExchangeRatesProvider extends ContentProvider
 				final Map<String, ExchangeRate> rates = new TreeMap<String, ExchangeRate>();
 
 				final JSONObject head = new JSONObject(content.toString());
+				for (final String field : fields)
+				{
+					log.info("Fetching field: " + field);
+					final String rateStr = digJSONObject(head,field,0);
+					if (rateStr != null)
+					{
+						log.info("Got: " + rateStr);
+						try
+						{
+							final BigInteger rate = GenericUtils.toNanoCoins(rateStr, 0);
+
+							if (rate.signum() > 0)
+							{
+								log.info("Putting: " + currencyCode + "rate: " + rate);
+								rates.put(currencyCode, new ExchangeRate(currencyCode, rate, url.getHost()));
+								break;
+							}
+						}
+						catch (final ArithmeticException x)
+						{
+							log.warn("problem fetching exchange rate: " + currencyCode, x);
+						}
+					}
+				}
+					
+				/*
 				for (final Iterator<String> i = head.keys(); i.hasNext();)
 				{
 					String code = i.next();
-					if (!"timestamp".equals(code))
+					if (!"timestamp".equals(code) && !"success".equals(code))
 					{
 						final JSONObject o = head.getJSONObject(code);
 
 						for (final String field : fields)
 						{
+							log.info("Fetching field: " + field);
 							final String rateStr = o.optString(field, null);
 
 							if (rateStr != null)
 							{
+								log.info("Got: " + rateStr);
 								try
 								{
 									final BigInteger rate = GenericUtils.toNanoCoins(rateStr, 0);
 
 									if (rate.signum() > 0)
 									{
+										log.info("Putting: " + currencyCode + "rate: " + rate);
 										rates.put(currencyCode, new ExchangeRate(currencyCode, rate, url.getHost()));
 										break;
 									}
@@ -310,7 +423,7 @@ public class ExchangeRatesProvider extends ContentProvider
 						}
 					}
 				}
-
+				*/
 				log.info("fetched exchange rates from " + url);
 
 				return rates;

@@ -58,6 +58,12 @@ public final class SendCoinsQrActivity extends AbstractOnDemandServiceActivity
 
 			new StringInputParser(input)
 			{
+	        	@Override
+	        	protected void bitcoinClaimRequest(@Nonnull final String httpAddress)
+	            {
+					cannotClassify(input);
+				}
+				
 				@Override
 				protected void bitcoinRequest(@Nonnull final Address address, final String addressLabel, final BigInteger amount, final String bluetoothMac)
 				{
