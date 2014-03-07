@@ -165,11 +165,11 @@ public class ExchangeRatesProvider extends ContentProvider
 				//newExchangeRates.putAll(poloExchangeRates);
 				//newExchangeRates.putAll(cyptExchangeRates);
 	
-				if (newExchangeRates == null)
-					newExchangeRates = requestExchangeRates(POLONIEX_URL, "BTC", POLONIEX_FIELDS);
 				// Attempt to get BTC exchange rates from all providers.  Stop after first.
 				if (newExchangeRates == null)
 					newExchangeRates = requestExchangeRates(CRYPTSY_URL, "BTC", CRYPTSY_FIELDS);
+				if (newExchangeRates == null)
+					newExchangeRates = requestExchangeRates(POLONIEX_URL, "BTC", POLONIEX_FIELDS);
 				//if (exchangeRates == null && newExchangeRates == null)
 				//	newExchangeRates = requestExchangeRates(VIRCUREX_URL, "USD", VIRCUREX_FIELDS);
 	
@@ -192,49 +192,61 @@ public class ExchangeRatesProvider extends ContentProvider
 	    			ExchangeRate aurBtcRate = newExchangeRates.get("BTC");
 	    			if (aurBtcRate != null)
 					{
-		    			ExchangeRate btcUsdRate = btcUsdRates.get("USD");
-	    				log.info("aurBTC rate found, generating btc-> usd and btc->eur");
-			            if (btcUsdRate != null)
+		    			if (btcUsdRates != null)
 						{
-		    				log.info("BTCUSD rate found, generating btc-> usd");
-			    			Map<String, ExchangeRate> newAurUsdRates = new TreeMap<String, ExchangeRate>();
-			    			BigInteger rate = aurBtcRate.rate.multiply(btcUsdRate.rate);
-			    			rate = rate.divide(BigInteger.valueOf(100000000));
-			    			ExchangeRate AurUsdRate = new ExchangeRate("USD", rate, aurBtcRate.source+"--"+btcUsdRate.source);
-		    				log.info("AUR -> USD "+rate);
-		    				newExchangeRates.put("USD", AurUsdRate);
-			    			ExchangeRate usdIskRate = usdIskRates.get("ISK");
-		    				if (usdIskRate != null) 
+			    			ExchangeRate btcUsdRate = btcUsdRates.get("USD");
+		    				log.info("aurBTC rate found, generating btc-> usd and btc->eur");
+				            if (btcUsdRate != null)
 							{
-			    				log.info("ISK rate found, generating usd-> isk");
-				    			//Map<String, ExchangeRate> newAurIskRates = new TreeMap<String, ExchangeRate>();
-				    			BigInteger iskRate = usdIskRate.rate.multiply(AurUsdRate.rate);
-				    			iskRate = iskRate.divide(BigInteger.valueOf(100000000));
-				    			ExchangeRate AurISKRate = new ExchangeRate("ISK", iskRate, "AUR-BTC-USD-ISK");
-			    				log.info("AUR -> ISK "+iskRate);
-			    				newExchangeRates.put("ISK", AurISKRate);
+			    				log.info("BTCUSD rate found, generating btc-> usd");
+				    			Map<String, ExchangeRate> newAurUsdRates = new TreeMap<String, ExchangeRate>();
+				    			BigInteger rate = aurBtcRate.rate.multiply(btcUsdRate.rate);
+				    			rate = rate.divide(BigInteger.valueOf(100000000));
+				    			ExchangeRate AurUsdRate = new ExchangeRate("USD", rate, aurBtcRate.source+"--"+btcUsdRate.source);
+			    				log.info("AUR -> USD "+rate);
+			    				newExchangeRates.put("USD", AurUsdRate);
+			    				if (usdIskRates != null) 
+								{
+					    			ExchangeRate usdIskRate = usdIskRates.get("ISK");
+				    				if (usdIskRate != null) 
+									{
+					    				log.info("ISK rate found, generating usd-> isk");
+						    			//Map<String, ExchangeRate> newAurIskRates = new TreeMap<String, ExchangeRate>();
+						    			BigInteger iskRate = usdIskRate.rate.multiply(AurUsdRate.rate);
+						    			iskRate = iskRate.divide(BigInteger.valueOf(100000000));
+						    			ExchangeRate AurISKRate = new ExchangeRate("ISK", iskRate, "AUR-BTC-USD-ISK");
+					    				log.info("AUR -> ISK "+iskRate);
+					    				newExchangeRates.put("ISK", AurISKRate);
+						            }
+					            }
 				            }
 			            }
-		    			ExchangeRate btcEurRate = btcEurRates.get("EUR");
-			            if (btcEurRate != null)
+		    			if (btcEurRates != null)
 						{
-		    				log.info("BTCEUR rate found, generating btc-> EUR");
-			    			Map<String, ExchangeRate> newAurEurRates = new TreeMap<String, ExchangeRate>();
-			    			BigInteger rate = aurBtcRate.rate.multiply(btcEurRate.rate);
-			    			rate = rate.divide(BigInteger.valueOf(100000000));
-			    			ExchangeRate AurEurRate = new ExchangeRate("EUR", rate, aurBtcRate.source+"--"+btcEurRate.source);
-			    			newExchangeRates.put("EUR", AurEurRate);
-		    				log.info("AUR -> EUR "+rate);
-			    			ExchangeRate eurIskRate = eurIskRates.get("ISK");
-		    				if (eurIskRate != null) 
+			    			ExchangeRate btcEurRate = btcEurRates.get("EUR");
+				            if (btcEurRate != null)
 							{
-			    				log.info("ISK rate found, generating eur-> isk");
-				    			//Map<String, ExchangeRate> newAurUsdRates = new TreeMap<String, ExchangeRate>();
-				    			BigInteger iskRate = eurIskRate.rate.multiply(AurEurRate.rate);
-				    			iskRate = iskRate.divide(BigInteger.valueOf(100000000));
-				    			ExchangeRate AurISKRate = new ExchangeRate("ISK", iskRate, "AUR-BTC-EUR-ISK");
-			    				log.info("AUR -> ISKD "+iskRate);
-			    				newExchangeRates.put("ISK", AurISKRate);
+			    				log.info("BTCEUR rate found, generating btc-> EUR");
+				    			Map<String, ExchangeRate> newAurEurRates = new TreeMap<String, ExchangeRate>();
+				    			BigInteger rate = aurBtcRate.rate.multiply(btcEurRate.rate);
+				    			rate = rate.divide(BigInteger.valueOf(100000000));
+				    			ExchangeRate AurEurRate = new ExchangeRate("EUR", rate, aurBtcRate.source+"--"+btcEurRate.source);
+				    			newExchangeRates.put("EUR", AurEurRate);
+			    				log.info("AUR -> EUR "+rate);
+			    				if (eurIskRates != null)
+								{
+					    			ExchangeRate eurIskRate = eurIskRates.get("ISK");
+				    				if (eurIskRate != null) 
+									{
+					    				log.info("ISK rate found, generating eur-> isk");
+						    			//Map<String, ExchangeRate> newAurUsdRates = new TreeMap<String, ExchangeRate>();
+						    			BigInteger iskRate = eurIskRate.rate.multiply(AurEurRate.rate);
+						    			iskRate = iskRate.divide(BigInteger.valueOf(100000000));
+						    			ExchangeRate AurISKRate = new ExchangeRate("ISK", iskRate, "AUR-BTC-EUR-ISK");
+					    				log.info("AUR -> ISKD "+iskRate);
+					    				newExchangeRates.put("ISK", AurISKRate);
+						            }
+					            }
 				            }
 			            }
 		            }
