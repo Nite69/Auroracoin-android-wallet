@@ -29,7 +29,7 @@ import com.google.bitcoin.core.NetworkParameters;
 import com.google.bitcoin.params.MainNetParams;
 import com.google.bitcoin.params.TestNet3Params;
 
-import de.schildbach.wallet_ltc.R;
+import de.schildbach.wallet_aur.R;
 import org.auroracoin.AuroraCoinParams;
 
 /**

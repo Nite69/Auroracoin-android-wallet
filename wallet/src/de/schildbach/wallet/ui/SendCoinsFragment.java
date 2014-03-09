@@ -99,7 +99,7 @@ import de.schildbach.wallet.offline.SendBluetoothTask;
 import de.schildbach.wallet.ui.InputParser.StringInputParser;
 import de.schildbach.wallet.util.GenericUtils;
 import de.schildbach.wallet.util.WalletUtils;
-import de.schildbach.wallet_ltc.R;
+import de.schildbach.wallet_aur.R;
 
 /**
  * @author Andreas Schildbach, Litecoin Dev Team
@@ -1218,7 +1218,7 @@ public final class SendCoinsFragment extends SherlockFragment
 			    cursor = activity.managedQuery(AddressBookProvider.contentUri(activity.getPackageName()),
                     null, AddressBookProvider.SELECTION_QUERY, new String[] { constraint.toString() }, null);
             } catch(NullPointerException e) {
-                Log.i("wallet_ltc", "NULL Pointer exception when doing address book completion");
+                Log.i("wallet_aur", "NULL Pointer exception when doing address book completion");
                 return null;
             }
 			return cursor;

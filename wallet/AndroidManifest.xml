@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	package="de.schildbach.wallet_ltc"
+	package="de.schildbach.wallet_aur"
 	android:installLocation="internalOnly"
 	android:versionCode="161"
 	android:versionName="1.1.0" >
@@ -172,11 +172,11 @@
 
 		<provider
 			android:name="de.schildbach.wallet.AddressBookProvider"
-			android:authorities="de.schildbach.wallet_ltc.address_book"
+			android:authorities="de.schildbach.wallet_aur.address_book"
 			android:exported="false" />
 		<provider
 			android:name="de.schildbach.wallet.ExchangeRatesProvider"
-			android:authorities="de.schildbach.wallet_ltc.exchange_rates"
+			android:authorities="de.schildbach.wallet_aur.exchange_rates"
 			android:exported="false" />
 
 		<receiver
