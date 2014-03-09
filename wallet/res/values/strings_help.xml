@@ -3,7 +3,7 @@
     <string name="help_wallet">
 <![CDATA[
 		<p>
-			The upper left part of the screen displays your selected AuroraCoin address that other people need to know in order to send you Litecoins.
+			The upper left part of the screen displays your selected AuroraCoin address that other people need to know in order to send you AuroraCoins.
 			Tap to change the address.
 		</p>
 		<p>
@@ -33,7 +33,7 @@
 			Using this dialog, you can request coins from another person (who should already have installed AuroraCoin Wallet).
 		</p>
 		<p>
-			First, you can enter an amount of Litecoins to request.
+			First, you can enter an amount of AuroraCoins to request.
 		</p>
 		<p>
 			Then, you either have the generated QR code scanned by the other person.
@@ -58,7 +58,7 @@
 			You can also scan QR codes with AuroraCoin addresses or AuroraCoin requests by pressing the QR button in the action bar.
 		</p>
 		<p>
-			Next, you can see how many Litecoins you can spend at the moment.
+			Next, you can see how many AuroraCoins you can spend at the moment.
 			Any difference to the balance from the main screen is still unconfirmed and can thus not yet be spent.
 		</p>
 		<p>
@@ -80,8 +80,8 @@
 <![CDATA[
         <p><b>Important safety notes:</b></p>
         <p>
-            Litecoins are stored on the device.
-            <b>If you lose it, you\'ll lose your Litecoins.</b>
+            AuroraCoins are stored on the device.
+            <b>If you lose it, you\'ll lose your AuroraCoins.</b>
         </p>
         <p>
             This means you need to <b>back up your wallet</b>!
@@ -89,12 +89,12 @@
             Keep your backup safe and remember the password.
         </p>
         <p>
-            <b>Before uninstalling</b> (or clearing app data/wiping your device), <b>transfer your Litecoins to another wallet</b>.
-            Remaining Litecoins will be lost.
+            <b>Before uninstalling</b> (or clearing app data/wiping your device), <b>transfer your AuroraCoins to another wallet</b>.
+            Remaining AuroraCoins will be lost.
         </p>
         <p>
             <b>Payments are irreversible</b>.
-            If you send your Litecoins into the void, there is almost no way to get them back.
+            If you send your AuroraCoins into the void, there is almost no way to get them back.
         </p>
         <p>
             <b>Keep your mobile device safe!</b>
