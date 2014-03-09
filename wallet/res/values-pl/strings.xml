@@ -143,7 +143,7 @@
 	<string name="scan_camera_problem_dialog_title">Przepraszam</string>
 	<string name="scan_camera_problem_dialog_message">Nastąpił problem z aparatem fotograficznym. Prawdopodobnie musisz zrestartować urządzenie.</string>
 	<string name="input_parser_cannot_classify">Nie udało się sklasyfikować danych wejściowych:\n%s</string>
-	<string name="input_parser_invalid_litecoin_uri">Niepoprawny URI Litecoin:\n%s</string>
+	<string name="input_parser_invalid_auroracoin_uri">Niepoprawny URI Litecoin:\n%s</string>
 	<string name="input_parser_invalid_address">Otrzymano niepoprawny adres Litecoin!\n(Pomylono Testnet z Prodnet?)</string>
 	<string name="input_parser_invalid_transaction">Transakcja nie powiodła się:\n%s</string>
 	<string name="preferences_activity_title">Ustawienia</string>

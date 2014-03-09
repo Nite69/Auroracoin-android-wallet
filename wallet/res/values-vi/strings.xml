@@ -132,7 +132,7 @@
 	<string name="import_keys_intent_filter_action">Nhập dữ liệu từ khóa Litecoin</string>
 	<string name="scan_camera_problem_dialog_title">Rất tiếc</string>
 	<string name="scan_camera_problem_dialog_message">Phần camera gặp vấn đề. Bạn nên khởi động lại thiết bị này.</string>
-	<string name="input_parser_invalid_litecoin_uri">Litecoin URI không hợp lệ:\n%s</string>
+	<string name="input_parser_invalid_auroracoin_uri">Litecoin URI không hợp lệ:\n%s</string>
 	<string name="input_parser_invalid_address">Đã nhận được địa chỉ litecoin không hợp lệ!\n(Nhầm lẫn giữa Mainnet/Testnet?)</string>
 	<string name="preferences_activity_title">Thiết lập</string>
 	<string name="preferences_category_main">Tùy biến</string>

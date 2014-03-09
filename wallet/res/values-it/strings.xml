@@ -143,7 +143,7 @@
 	<string name="scan_camera_problem_dialog_title">Scusa</string>
 	<string name="scan_camera_problem_dialog_message">La videocamera ha un problema. Probabilmente è necessario riavviare il dispositivo.</string>
 	<string name="input_parser_cannot_classify">Impossibile classificare ingresso:\n%s</string>
-	<string name="input_parser_invalid_litecoin_uri">URI Litecoin non valido:\n%s</string>
+	<string name="input_parser_invalid_auroracoin_uri">URI Litecoin non valido:\n%s</string>
 	<string name="input_parser_invalid_address">Ricevuto indirizzo litecoin non valido!\n(Hai mescolato Mainnet/Testnet?)</string>
 	<string name="input_parser_invalid_transaction">Transazione non valida:\n%s</string>
 	<string name="preferences_activity_title">Impostazioni</string>

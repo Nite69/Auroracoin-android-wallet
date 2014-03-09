@@ -143,7 +143,7 @@
 	<string name="scan_camera_problem_dialog_title">Извините</string>
 	<string name="scan_camera_problem_dialog_message">Проблема с камерой. Возможно, вам нужно перезагрузить устройство.</string>
 	<string name="input_parser_cannot_classify">Не удалось классифицировать ввод:\n%s</string>
-	<string name="input_parser_invalid_litecoin_uri">Неверный Litecoin URI:\n%s</string>
+	<string name="input_parser_invalid_auroracoin_uri">Неверный Litecoin URI:\n%s</string>
 	<string name="input_parser_invalid_address">Получен неверный адрес биткоин!\n(перепутаны Testnet/Mainnet?)</string>
 	<string name="input_parser_invalid_transaction">Неверная транзакция:\n%s</string>
 	<string name="preferences_activity_title">Настройки</string>

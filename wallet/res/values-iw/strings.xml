@@ -121,7 +121,7 @@
 	<string name="import_export_keys_dialog_failure_title">שגיאה</string>
 	<string name="scan_camera_problem_dialog_title">סליחה</string>
 	<string name="scan_camera_problem_dialog_message">בעיה במצלמה</string>
-	<string name="input_parser_invalid_litecoin_uri">כתובת ביטקוין לא חוקית:\n%s</string>
+	<string name="input_parser_invalid_auroracoin_uri">כתובת ביטקוין לא חוקית:\n%s</string>
 	<string name="input_parser_invalid_address">כתובת ביטקוין לא חוקית</string>
 	<string name="preferences_activity_title">הגדרות</string>
 	<string name="preferences_category_main">העדפות</string>

@@ -143,7 +143,7 @@
 	<string name="scan_camera_problem_dialog_title">Üzgünüz</string>
 	<string name="scan_camera_problem_dialog_message">Fotoğraf makinesinde bir problem var. Muhtemelen cihazınızı yeniden başlatmanız gerekiyor.</string>
 	<string name="input_parser_cannot_classify">Girdi sınıflandırılamadı:\n%s</string>
-	<string name="input_parser_invalid_litecoin_uri">Geçersiz Litecoin adresi:\n%s</string>
+	<string name="input_parser_invalid_auroracoin_uri">Geçersiz Litecoin adresi:\n%s</string>
 	<string name="input_parser_invalid_address">Geçersiz bir litecoin adresi alındı!\n(Mainnet ve Testnet karışmış olmasın?)</string>
 	<string name="input_parser_invalid_transaction">Geçersiz muamele:\n%s</string>
 	<string name="preferences_activity_title">Ayarlar</string>

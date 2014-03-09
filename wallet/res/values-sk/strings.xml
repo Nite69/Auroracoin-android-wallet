@@ -143,7 +143,7 @@
 	<string name="scan_camera_problem_dialog_title">Ospravedlňujeme sa</string>
 	<string name="scan_camera_problem_dialog_message">Problém s fotoaparátom. Pravdepodobne je potrebný reštart zariadenia.</string>
 	<string name="input_parser_cannot_classify">Nepodarilo sa zaradiť vstup:\n%s</string>
-	<string name="input_parser_invalid_litecoin_uri">Neplatná Litecoin URI:\n%s</string>
+	<string name="input_parser_invalid_auroracoin_uri">Neplatná Litecoin URI:\n%s</string>
 	<string name="input_parser_invalid_address">Neplatná Litecoin adresa!\n(Zamenené Mainnet/Testnet?)</string>
 	<string name="input_parser_invalid_transaction">Neplatná transakcia:\n%s</string>
 	<string name="preferences_activity_title">Nastavenia</string>

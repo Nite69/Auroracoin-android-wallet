@@ -143,7 +143,7 @@
 	<string name="scan_camera_problem_dialog_title">Beklager</string>
 	<string name="scan_camera_problem_dialog_message">Der er et problem med kameraet. En gentstart af enheden er sandsynligvis nødvendig.</string>
 	<string name="input_parser_cannot_classify">Kan ikke klassificere input:\n%s</string>
-	<string name="input_parser_invalid_litecoin_uri">Ugyldig Litecoin-URI:\n%s</string>
+	<string name="input_parser_invalid_auroracoin_uri">Ugyldig Litecoin-URI:\n%s</string>
 	<string name="input_parser_invalid_address">Modtog ugyldig litecoin-adresse!\n(Blanding af Mainnet/Testnet?)</string>
 	<string name="input_parser_invalid_transaction">Ugyldig transaktion:\n%s</string>
 	<string name="preferences_activity_title">Opsætning</string>

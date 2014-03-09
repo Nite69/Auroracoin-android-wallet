@@ -95,11 +95,11 @@ public class Constants
 
     //TODO: Lots of these
 	public static final String LICENSE_URL = "http://www.gnu.org/licenses/gpl-3.0.txt";
-	public static final String SOURCE_URL = "https://github.com/Litecoin-Java/bitcoin-wallet";
-	public static final String BINARY_URL = "https://github.com/Litecoin-Java/bitcoin-wallet/releases";
-	public static final String CREDITS_BITCOINJ_URL = "https://github.com/Litecoin-Java/bitcoinj";
+	public static final String SOURCE_URL = "https://github.com/Nite69/Auroracoin-android-wallet";
+	public static final String BINARY_URL = "https://github.com/Nite69/Auroracoin-android-wallet/releases";
+	public static final String CREDITS_BITCOINJ_URL = "https://github.com/Nite69/bitcoinj-scrypt";
 	public static final String CREDITS_ZXING_URL = "http://code.google.com/p/zxing/";
-	public static final String AUTHOR_TWITTER_URL = "https://twitter.com/LitecoinProject";
+	public static final String AUTHOR_TWITTER_URL = "https://twitter.com/auroracoinIS";
 	public static final String AUTHOR_GOOGLEPLUS_URL = "https://plus.google.com/+LitecoinOrg";
 	public static final String COMMUNITY_GOOGLEPLUS_URL = "https://plus.google.com/+LitecoinOrg";
     public static final String ANDROID_MARKET_APP_URL = "market://details?id=%s";

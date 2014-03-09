@@ -143,7 +143,7 @@
 	<string name="scan_camera_problem_dialog_title">抱歉</string>
 	<string name="scan_camera_problem_dialog_message">照相機有問題，你可能需要重新啟動裝置</string>
 	<string name="input_parser_cannot_classify">無法分類輸入:\n%s</string>
-	<string name="input_parser_invalid_litecoin_uri">萊特幣 URI 無效:\n%s</string>
+	<string name="input_parser_invalid_auroracoin_uri">萊特幣 URI 無效:\n%s</string>
 	<string name="input_parser_invalid_address">取得無效萊特幣地址!\n(是否 Mainnet/Testnet 混用?)</string>
 	<string name="input_parser_invalid_transaction">無效交易:\n%s</string>
 	<string name="preferences_activity_title">設定</string>
