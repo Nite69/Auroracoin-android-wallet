@@ -179,7 +179,7 @@
 	<string name="report_issue_dialog_mail_intent_chooser">Send rapport ved hjælp af…</string>
 	<string name="about_title">Om</string>
 	<string name="about_license_title">Licens</string>
-	<string name="about_credits_litecoinj_title">Denne app bruger litecoinj %s</string>
+	<string name="about_credits_bitcoinj_scrypt_title">Denne app bruger litecoinj %s</string>
 	<string name="about_credits_zxing_title">"Denne app bruger 'zxing'"</string>
 	<string name="about_credits_icon_title">"Denne app bruger et ikon af 'bitboy'"</string>
 	<string name="about_community_googleplus_title">Google+-fællesskab</string>

@@ -27,7 +27,7 @@ import org.junit.Test;
 import com.google.bitcoin.core.NetworkParameters;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public class GenericUtilsTest
 {

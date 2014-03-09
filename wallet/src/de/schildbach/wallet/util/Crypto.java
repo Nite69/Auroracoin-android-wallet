@@ -51,7 +51,7 @@ import de.schildbach.wallet.Constants;
  * substitute your password for "aTestPassword" or remove the "-pass" parameter to be prompted.
  * 
  * @author jim
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public class Crypto
 {

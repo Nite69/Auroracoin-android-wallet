@@ -162,7 +162,7 @@
 	<string name="report_issue_dialog_mail_intent_chooser">Gửi báo cáo sử dụng…</string>
 	<string name="about_title">Thông tin</string>
 	<string name="about_license_title">Giấy phép</string>
-	<string name="about_credits_litecoinj_title">Ứng dụng này đang sử dụng litecoinj %s</string>
+	<string name="about_credits_bitcoinj_scrypt_title">Ứng dụng này đang sử dụng litecoinj %s</string>
 	<string name="about_credits_zxing_title">Ứng dụng này sử dụng \'zxing\'</string>
 	<string name="about_credits_icon_title">Ứng dụng này sử dụng biểu tượng bởi \'bitboy\'</string>
 	<string name="about_author_twitter_title">Liên hệ tác giả bằng Twitter</string>

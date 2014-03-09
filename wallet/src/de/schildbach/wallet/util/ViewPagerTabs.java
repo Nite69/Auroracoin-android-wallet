@@ -34,7 +34,7 @@ import android.view.View;
 import de.schildbach.wallet_aur.R;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public class ViewPagerTabs extends View implements OnPageChangeListener
 {

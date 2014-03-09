@@ -35,7 +35,7 @@ import de.schildbach.wallet.ui.InputParser.StringInputParser;
 import javax.annotation.Nonnull;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public final class SendCoinsQrActivity extends AbstractOnDemandServiceActivity
 {

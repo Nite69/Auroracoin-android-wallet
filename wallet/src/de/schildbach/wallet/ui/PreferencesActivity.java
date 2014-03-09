@@ -47,7 +47,7 @@ import de.schildbach.wallet.util.CrashReporter;
 import de.schildbach.wallet_aur.R;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public final class PreferencesActivity extends SherlockPreferenceActivity implements OnPreferenceChangeListener
 {

@@ -49,7 +49,7 @@ import de.schildbach.wallet.util.Io;
 import de.schildbach.wallet_aur.R;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public abstract class ReportIssueDialogBuilder extends AlertDialog.Builder implements OnClickListener
 {

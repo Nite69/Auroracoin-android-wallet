@@ -28,7 +28,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public class CircularProgressView extends View
 {

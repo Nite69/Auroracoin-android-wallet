@@ -32,7 +32,7 @@ import com.google.bitcoin.script.Script;
 import de.schildbach.wallet.util.ThrottlingWalletChangeListener;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public final class WalletBalanceLoader extends AsyncTaskLoader<BigInteger>
 {

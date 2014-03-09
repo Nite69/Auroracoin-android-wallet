@@ -26,7 +26,7 @@ import com.actionbarsherlock.view.MenuItem;
 import de.schildbach.wallet_aur.R;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public final class RequestCoinsActivity extends AbstractBindServiceActivity
 {

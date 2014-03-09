@@ -75,7 +75,7 @@ import de.schildbach.wallet.offline.AcceptBluetoothService;
 import de.schildbach.wallet_aur.R;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public final class RequestCoinsFragment extends SherlockFragment
 {

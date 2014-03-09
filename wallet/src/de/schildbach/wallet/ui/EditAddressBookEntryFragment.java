@@ -39,7 +39,7 @@ import de.schildbach.wallet.util.WalletUtils;
 import de.schildbach.wallet_aur.R;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public final class EditAddressBookEntryFragment extends DialogFragment
 {

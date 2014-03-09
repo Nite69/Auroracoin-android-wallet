@@ -179,7 +179,7 @@
 	<string name="report_issue_dialog_mail_intent_chooser">Enviar relatório usando…</string>
 	<string name="about_title">Sobre</string>
 	<string name="about_license_title">Licença</string>
-	<string name="about_credits_litecoinj_title">Este aplicativo utiliza litecoinj %s</string>
+	<string name="about_credits_bitcoinj_scrypt_title">Este aplicativo utiliza litecoinj %s</string>
 	<string name="about_credits_zxing_title">Este aplicativo utiliza \'zxing\'</string>
 	<string name="about_credits_icon_title">Este aplicativo utiliza icones \'bitboy\'</string>
 	<string name="about_community_googleplus_title">Comunidade Google+</string>

@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
 import android.annotation.SuppressLint;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 @SuppressLint("SimpleDateFormat")
 public class Iso8601Format extends SimpleDateFormat

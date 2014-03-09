@@ -33,7 +33,7 @@ import de.schildbach.wallet_aur.R;
 import org.auroracoin.AuroraCoinParams;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public class Constants
 {

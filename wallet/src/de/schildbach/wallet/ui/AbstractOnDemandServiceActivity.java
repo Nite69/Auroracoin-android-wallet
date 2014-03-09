@@ -26,7 +26,7 @@ import com.google.bitcoin.core.Wallet;
 import de.schildbach.wallet.WalletApplication;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public abstract class AbstractOnDemandServiceActivity extends AbstractWalletActivity
 {

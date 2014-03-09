@@ -62,7 +62,7 @@ import de.schildbach.wallet.camera.CameraManager;
 import de.schildbach.wallet_aur.R;
 
 /**
- * @author Andreas Schildbach, Litecoin Dev Team
+ * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
  */
 public final class ScanActivity extends Activity implements SurfaceHolder.Callback
 {
