@@ -657,7 +657,7 @@ public final class SendCoinsFragment extends SherlockFragment
 	@Override
 	public void onActivityResult(final int requestCode, final int resultCode, final Intent intent)
 	{
-        String input;
+        final String input;
         if (requestCode == REQUEST_CODE_ENABLE_BLUETOOTH)
         {
             bluetoothEnableView.setChecked(resultCode == Activity.RESULT_OK);
@@ -667,15 +667,16 @@ public final class SendCoinsFragment extends SherlockFragment
             /* Check if user wants to use internal scanner */
             if(prefs.getString(Constants.PREFS_KEY_QR_SCANNER, "").equals("internal"))
             {
+            	String i = null;
     			try
     			{
-    	            input = intent.getStringExtra(ScanActivity.INTENT_EXTRA_RESULT);
+    	            i = intent.getStringExtra(ScanActivity.INTENT_EXTRA_RESULT);
     			}
     			catch (final Exception x)
     			{
-    				input = null;
     				log.error("Problem using internal QR scanner");
     			}
+    			input = i;
             }
             else
             {

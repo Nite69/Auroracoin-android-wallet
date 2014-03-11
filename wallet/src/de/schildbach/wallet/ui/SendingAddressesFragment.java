@@ -137,15 +137,16 @@ public final class SendingAddressesFragment extends SherlockListFragment impleme
         /* Check if user wants to use internal scanner */
         if(prefs.getString(Constants.PREFS_KEY_QR_SCANNER, "").equals("internal"))
         {
+        	String i=null;
 			try
 			{
-	            input = intent.getStringExtra(ScanActivity.INTENT_EXTRA_RESULT);
+	            i = intent.getStringExtra(ScanActivity.INTENT_EXTRA_RESULT);
 			}
 			catch (final Exception x)
 			{
-				input = null;
 				Log.e(TAG, "Problem using internal QR scanner");
 			}
+			input = i;
         }
         else
         {
