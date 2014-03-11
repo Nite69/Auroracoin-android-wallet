@@ -52,9 +52,12 @@ public final class EditTransactionNoteFragment extends DialogFragment
 
 	public static void edit(final FragmentManager fm, @Nonnull final String address, TransactionsListAdapter adapter)
 	{
-		final EditTransactionNoteFragment newFragment = EditTransactionNoteFragment.instance(address);
-        newFragment.setAdapter(adapter);
-		newFragment.show(fm, FRAGMENT_TAG);
+		if (fm != null)
+		{
+			final EditTransactionNoteFragment newFragment = EditTransactionNoteFragment.instance(address);
+	        newFragment.setAdapter(adapter);
+			newFragment.show(fm, FRAGMENT_TAG);
+		}
 	}
 
 	private static EditTransactionNoteFragment instance(@Nonnull final String txid)

@@ -62,7 +62,8 @@ public abstract class InputParser
 		public void parse()
 		{
             if(input == null) return;
-			if (input.startsWith("auroracoin:"))
+            final String scheme = Constants.NETWORK_PARAMETERS.getURIScheme();
+			if (input.toLowerCase().startsWith(scheme))
 			{
 				try
 				{

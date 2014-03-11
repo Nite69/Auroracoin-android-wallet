@@ -22,7 +22,11 @@ import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -47,6 +51,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.CheckpointManager;
 import com.google.bitcoin.core.ECKey;
 import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.uri.BitcoinURI;
@@ -67,6 +72,7 @@ import de.schildbach.wallet_aur.R;
  */
 public final class SendingAddressesFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
+    private final String TAG = SendingAddressesFragment.class.getName();
 	private AbstractWalletActivity activity;
 	private AbstractClipboardManager clipboardManager;
 	private LoaderManager loaderManager;
@@ -131,7 +137,15 @@ public final class SendingAddressesFragment extends SherlockListFragment impleme
         /* Check if user wants to use internal scanner */
         if(prefs.getString(Constants.PREFS_KEY_QR_SCANNER, "").equals("internal"))
         {
-            input = intent.getStringExtra(ScanActivity.INTENT_EXTRA_RESULT);
+			try
+			{
+	            input = intent.getStringExtra(ScanActivity.INTENT_EXTRA_RESULT);
+			}
+			catch (final Exception x)
+			{
+				input = null;
+				Log.e(TAG, "Problem using internal QR scanner");
+			}
         }
         else
         {

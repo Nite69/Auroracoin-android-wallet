@@ -55,8 +55,14 @@ public final class EditAddressBookEntryFragment extends DialogFragment
 
 	public static void edit(final FragmentManager fm, @Nonnull final String address, @Nullable final String suggestedAddressLabel)
 	{
-		final DialogFragment newFragment = EditAddressBookEntryFragment.instance(address, suggestedAddressLabel);
-		newFragment.show(fm, FRAGMENT_TAG);
+		if (fm != null) 
+		{
+			final DialogFragment newFragment = EditAddressBookEntryFragment.instance(address, suggestedAddressLabel);
+			if (newFragment != null) 
+			{
+				newFragment.show(fm, FRAGMENT_TAG);
+			}
+		}
 	}
 
 	private static EditAddressBookEntryFragment instance(@Nonnull final String address, @Nullable final String suggestedAddressLabel)
