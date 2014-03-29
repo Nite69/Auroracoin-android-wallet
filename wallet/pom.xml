@@ -6,7 +6,7 @@
 
 	<artifactId>wallet</artifactId>
 	<packaging>apk</packaging>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<name>AuroraCoin Wallet</name>
 
 	<parent>
