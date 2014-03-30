@@ -88,8 +88,8 @@ public class Constants
 	public static final int MBTC_MAX_PRECISION = 5;
 	public static final int LOCAL_PRECISION = 4;
 
-	public static final String DONATION_ADDRESS = "AXVoGgYtSVkPv96JLL7CiwcyVvPxXHXRK9";
-	public static final String REPORT_EMAIL = "debuglog@mailinator.com";
+	public static final String DONATION_ADDRESS = "AWz59v2U5NaLudxMN5KtKZ6wzXvADYHN1K";
+	public static final String REPORT_EMAIL = "yourownaddress@somewhere.replace";
 	public static final String REPORT_SUBJECT_ISSUE = "Reported issue";
 	public static final String REPORT_SUBJECT_CRASH = "Crash report";
 
