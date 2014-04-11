@@ -679,7 +679,6 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 			blockStore.getChainHead(); // detect corruptions as early as possible
 
 			final long earliestKeyCreationTime = wallet.getEarliestKeyCreationTime();
-
 			if (!blockChainFileExists && earliestKeyCreationTime > 0)
 			{
 				try
