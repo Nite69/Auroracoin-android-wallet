@@ -469,7 +469,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                             if(dbPeerDiscovery != null)
                                 peers.addAll(Arrays.asList(dbPeerDiscovery.getPeers(1, TimeUnit.SECONDS)));
 							log.info("Peer count "+ peers.size());
-                            if (peers.size() < 2)
+                            //if (peers.size() < 2)
                             {
     							log.info("Addind ircdiscovery peers ");
                                 try {
