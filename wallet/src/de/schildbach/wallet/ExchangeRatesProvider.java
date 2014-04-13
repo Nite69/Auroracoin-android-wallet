@@ -111,7 +111,9 @@ public class ExchangeRatesProvider extends ContentProvider
     private static final String[] GOOGLE_USD_ISK_URL_FIELDS = new String[] { "rate" };
     private static final URL GOOGLE_EUR_ISK_URL;
     private static final String[] GOOGLE_EUR_ISK_URL_FIELDS = new String[] { "rate" };
-	
+    private static final URL MOOLAH_AUR_ISK_URL;
+    private static final String[] MOOLAH_EUR_ISK_URL_FIELDS = null; //just get the rate
+    
 	static
 	{
 		try
@@ -125,7 +127,8 @@ public class ExchangeRatesProvider extends ContentProvider
             BTCE_BTC_EUR_URL = new URL("https://btc-e.com/api/2/btc_eur/ticker");
             GOOGLE_USD_ISK_URL = new URL("http://rate-exchange.appspot.com/currency?from=USD&to=ISK");
             GOOGLE_EUR_ISK_URL = new URL("http://rate-exchange.appspot.com/currency?from=EUR&to=ISK");
-            
+            MOOLAH_AUR_ISK_URL = new URL("https://moolah.io/api/rates?f=AUR&t=ISK&a=1");
+
 		}
 		catch (final MalformedURLException x)
 		{
@@ -151,9 +154,12 @@ public class ExchangeRatesProvider extends ContentProvider
 	@Override
 	public Cursor query(final Uri uri, final String[] projection, final String selection, final String[] selectionArgs, final String sortOrder)
 	{
+		if (Constants.BUG_OPENSSL_HEARTBLEED) {
+			return null;
+		}
 		final long now = System.currentTimeMillis();
-		synchronized (lock) 
-		// quite long cynced block, but the second thread has to wait until first has updated
+		synchronized (lock)
+		// quite long synced block, but the second thread has to wait until first has updated
 		{
 			if (exchangeRates == null || (now - lastUpdated) > UPDATE_FREQ_MS)
 			{
@@ -173,25 +179,56 @@ public class ExchangeRatesProvider extends ContentProvider
 				//if (exchangeRates == null && newExchangeRates == null)
 				//	newExchangeRates = requestExchangeRates(VIRCUREX_URL, "USD", VIRCUREX_FIELDS);
 	
-	            // Get Euro and USD rates
+	            // Get ISK, Euro and USD rates
+				Map<String, ExchangeRate> aurIskRate = requestExchangeRates(MOOLAH_AUR_ISK_URL, "ISK", MOOLAH_EUR_ISK_URL_FIELDS);
 	            Map<String, ExchangeRate> btcEurRates = requestExchangeRates(BTCE_BTC_EUR_URL, "EUR", BTCE_BTC_EUR_URL_FIELDS);
-	            Map<String, ExchangeRate> eurIskRates = requestExchangeRates(GOOGLE_EUR_ISK_URL, "ISK", GOOGLE_EUR_ISK_URL_FIELDS);
 	            //requestExchangeRates(BTCE_EURO_URL, "EUR", BTCE_EURO_FIELDS);
 	            Map<String, ExchangeRate> btcUsdRates = requestExchangeRates(BTCE_BTC_USD_URL, "USD", BTCE_BTC_USD_URL_FIELDS);
-	            Map<String, ExchangeRate> usdIskRates = requestExchangeRates(GOOGLE_USD_ISK_URL, "ISK", GOOGLE_USD_ISK_URL_FIELDS);
 	            //requestExchangeRates(BTCE_EURO_URL, "EUR", BTCE_EURO_FIELDS);
-	            //if(euroRate != null) {
-	            //    if(newExchangeRates != null)
-	            //        newExchangeRates.putAll(euroRate);
-	            //    else
-	            //        newExchangeRates = euroRate;
-	            //}
+	            if(aurIskRate != null) {
+	                if(newExchangeRates != null)
+	                    newExchangeRates.putAll(aurIskRate);
+	                else
+	                    newExchangeRates = aurIskRate;
+	            }
 				if (newExchangeRates != null)
 				{ // generate AUR -> USD rate from AUR -> BTC -> USD
 					log.info("Generating aur-> usd and aur->eur");
 	    			ExchangeRate aurBtcRate = newExchangeRates.get("BTC");
 	    			if (aurBtcRate != null)
 					{
+		    			if (btcEurRates != null)
+						{
+			    			ExchangeRate btcEurRate = btcEurRates.get("EUR");
+				            if (btcEurRate != null)
+							{
+			    				log.info("BTCEUR rate found, generating btc-> EUR");
+				    			Map<String, ExchangeRate> newAurEurRates = new TreeMap<String, ExchangeRate>();
+				    			BigInteger rate = aurBtcRate.rate.multiply(btcEurRate.rate);
+				    			rate = rate.divide(BigInteger.valueOf(100000000));
+				    			ExchangeRate AurEurRate = new ExchangeRate("EUR", rate, aurBtcRate.source+"--"+btcEurRate.source);
+				    			newExchangeRates.put("EUR", AurEurRate);
+			    				log.info("AUR -> EUR "+rate);
+			    				if (!newExchangeRates.containsKey("ISK"))
+								{
+				    	            Map<String, ExchangeRate> eurIskRates = requestExchangeRates(GOOGLE_EUR_ISK_URL, "ISK", GOOGLE_EUR_ISK_URL_FIELDS);
+				    				if (eurIskRates != null)
+									{
+						    			ExchangeRate eurIskRate = eurIskRates.get("ISK");
+					    				if (eurIskRate != null) 
+										{
+						    				log.info("ISK rate found, generating eur-> isk");
+							    			//Map<String, ExchangeRate> newAurUsdRates = new TreeMap<String, ExchangeRate>();
+							    			BigInteger iskRate = eurIskRate.rate.multiply(AurEurRate.rate);
+							    			iskRate = iskRate.divide(BigInteger.valueOf(100000000));
+							    			ExchangeRate AurISKRate = new ExchangeRate("ISK", iskRate, "AUR-BTC-EUR-ISK");
+						    				log.info("AUR -> ISK "+iskRate);
+						    				newExchangeRates.put("ISK", AurISKRate);
+							            }
+						            }
+					            }
+				            }
+			            }
 		    			if (btcUsdRates != null)
 						{
 			    			ExchangeRate btcUsdRate = btcUsdRates.get("USD");
@@ -205,46 +242,22 @@ public class ExchangeRatesProvider extends ContentProvider
 				    			ExchangeRate AurUsdRate = new ExchangeRate("USD", rate, aurBtcRate.source+"--"+btcUsdRate.source);
 			    				log.info("AUR -> USD "+rate);
 			    				newExchangeRates.put("USD", AurUsdRate);
-			    				if (usdIskRates != null) 
+			    				if (!newExchangeRates.containsKey("ISK"))
 								{
-					    			ExchangeRate usdIskRate = usdIskRates.get("ISK");
-				    				if (usdIskRate != null) 
+				    	            Map<String, ExchangeRate> usdIskRates = requestExchangeRates(GOOGLE_USD_ISK_URL, "ISK", GOOGLE_USD_ISK_URL_FIELDS);
+				    				if (usdIskRates != null) 
 									{
-					    				log.info("ISK rate found, generating usd-> isk");
-						    			//Map<String, ExchangeRate> newAurIskRates = new TreeMap<String, ExchangeRate>();
-						    			BigInteger iskRate = usdIskRate.rate.multiply(AurUsdRate.rate);
-						    			iskRate = iskRate.divide(BigInteger.valueOf(100000000));
-						    			ExchangeRate AurISKRate = new ExchangeRate("ISK", iskRate, "AUR-BTC-USD-ISK");
-					    				log.info("AUR -> ISK "+iskRate);
-					    				newExchangeRates.put("ISK", AurISKRate);
-						            }
-					            }
-				            }
-			            }
-		    			if (btcEurRates != null)
-						{
-			    			ExchangeRate btcEurRate = btcEurRates.get("EUR");
-				            if (btcEurRate != null)
-							{
-			    				log.info("BTCEUR rate found, generating btc-> EUR");
-				    			Map<String, ExchangeRate> newAurEurRates = new TreeMap<String, ExchangeRate>();
-				    			BigInteger rate = aurBtcRate.rate.multiply(btcEurRate.rate);
-				    			rate = rate.divide(BigInteger.valueOf(100000000));
-				    			ExchangeRate AurEurRate = new ExchangeRate("EUR", rate, aurBtcRate.source+"--"+btcEurRate.source);
-				    			newExchangeRates.put("EUR", AurEurRate);
-			    				log.info("AUR -> EUR "+rate);
-			    				if (eurIskRates != null)
-								{
-					    			ExchangeRate eurIskRate = eurIskRates.get("ISK");
-				    				if (eurIskRate != null) 
-									{
-					    				log.info("ISK rate found, generating eur-> isk");
-						    			//Map<String, ExchangeRate> newAurUsdRates = new TreeMap<String, ExchangeRate>();
-						    			BigInteger iskRate = eurIskRate.rate.multiply(AurEurRate.rate);
-						    			iskRate = iskRate.divide(BigInteger.valueOf(100000000));
-						    			ExchangeRate AurISKRate = new ExchangeRate("ISK", iskRate, "AUR-BTC-EUR-ISK");
-					    				log.info("AUR -> ISKD "+iskRate);
-					    				newExchangeRates.put("ISK", AurISKRate);
+						    			ExchangeRate usdIskRate = usdIskRates.get("ISK");
+					    				if (usdIskRate != null) 
+										{
+						    				log.info("ISK rate found, generating usd-> isk");
+							    			//Map<String, ExchangeRate> newAurIskRates = new TreeMap<String, ExchangeRate>();
+							    			BigInteger iskRate = usdIskRate.rate.multiply(AurUsdRate.rate);
+							    			iskRate = iskRate.divide(BigInteger.valueOf(100000000));
+							    			ExchangeRate AurISKRate = new ExchangeRate("ISK", iskRate, "AUR-BTC-USD-ISK");
+						    				log.info("AUR -> ISK "+iskRate);
+						    				newExchangeRates.put("ISK", AurISKRate);
+							            }
 						            }
 					            }
 				            }
@@ -431,11 +444,9 @@ public class ExchangeRatesProvider extends ContentProvider
 				final Map<String, ExchangeRate> rates = new TreeMap<String, ExchangeRate>();
 				log.info("Got response, parsing "); //+content.toString());
 
-				final JSONObject head = new JSONObject(content.toString());
-				for (final String field : fields)
+				if (fields == null)
 				{
-					log.info("Fetching field: " + field);
-					final String rateStr = digJSONObject(head,field,0);
+					final String rateStr = content.toString();
 					if (rateStr != null)
 					{
 						log.info("Got: " + rateStr);
@@ -445,14 +456,40 @@ public class ExchangeRatesProvider extends ContentProvider
 
 							if (rate.signum() > 0)
 							{
-								log.info("Putting: " + currencyCode + "rate: " + rate);
+								log.info("Putting: " + currencyCode + " rate: " + rate);
 								rates.put(currencyCode, new ExchangeRate(currencyCode, rate, url.getHost()));
-								break;
 							}
 						}
 						catch (final ArithmeticException x)
 						{
 							log.warn("problem fetching exchange rate: " + currencyCode, x);
+						}
+					}
+				} else
+				{
+					final JSONObject head = new JSONObject(content.toString());
+					for (final String field : fields)
+					{
+						log.info("Fetching field: " + field);
+						final String rateStr = digJSONObject(head,field,0);
+						if (rateStr != null)
+						{
+							log.info("Got: " + rateStr);
+							try
+							{
+								final BigInteger rate = GenericUtils.toNanoCoins(rateStr, 0);
+	
+								if (rate.signum() > 0)
+								{
+									log.info("Putting: " + currencyCode + "rate: " + rate);
+									rates.put(currencyCode, new ExchangeRate(currencyCode, rate, url.getHost()));
+									break;
+								}
+							}
+							catch (final ArithmeticException x)
+							{
+								log.warn("problem fetching exchange rate: " + currencyCode, x);
+							}
 						}
 					}
 				}
