@@ -187,8 +187,8 @@
                             </includes>
                             <keystore>${sign.keystore}</keystore>
                             <alias>${sign.alias}</alias>
-                            <storepass>AuroraCoin</storepass>
-                            <keypass>AuroraCoin</keypass>
+                            <storepass>${sign.storepass}</storepass>
+                            <keypass>${sign.keypass}</keypass>
                             <verbose>true</verbose>
                             <arguments>
                                 <argument>-sigalg</argument><argument>MD5withRSA</argument>
