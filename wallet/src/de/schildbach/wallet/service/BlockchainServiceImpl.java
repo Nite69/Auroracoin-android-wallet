@@ -17,42 +17,11 @@
 
 package de.schildbach.wallet.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigInteger;
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import android.util.Log;
-import com.google.bitcoin.script.Script;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.auroracoin.AuroraBlockChain;
-import org.auroracoin.AuroraCoinPeerDBDiscovery;
-
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -64,32 +33,18 @@ import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.format.DateUtils;
-
-import com.google.bitcoin.core.AbstractPeerEventListener;
-import com.google.bitcoin.core.Address;
-import com.google.bitcoin.core.Block;
-import com.google.bitcoin.core.BlockChain;
-import com.google.bitcoin.core.CheckpointManager;
-import com.google.bitcoin.core.Peer;
-import com.google.bitcoin.core.PeerEventListener;
-import com.google.bitcoin.core.PeerGroup;
-import com.google.bitcoin.core.ScriptException;
-import com.google.bitcoin.core.Sha256Hash;
-import com.google.bitcoin.core.StoredBlock;
-import com.google.bitcoin.core.Transaction;
+import android.util.Log;
+import com.google.bitcoin.core.*;
 import com.google.bitcoin.core.TransactionConfidence.ConfidenceType;
-import com.google.bitcoin.core.Wallet;
 import com.google.bitcoin.core.Wallet.BalanceType;
-import com.google.bitcoin.core.WalletEventListener;
 import com.google.bitcoin.net.discovery.DnsDiscovery;
 import com.google.bitcoin.net.discovery.IrcDiscovery;
-//import com.google.bitcoin.net.discovery.IrcDiscovery;
 import com.google.bitcoin.net.discovery.PeerDiscovery;
 import com.google.bitcoin.net.discovery.PeerDiscoveryException;
+import com.google.bitcoin.script.Script;
 import com.google.bitcoin.store.BlockStore;
 import com.google.bitcoin.store.BlockStoreException;
 import com.google.bitcoin.store.SPVBlockStore;
-
 import de.schildbach.wallet.AddressBookProvider;
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.WalletApplication;
@@ -100,6 +55,29 @@ import de.schildbach.wallet.util.GenericUtils;
 import de.schildbach.wallet.util.ThrottlingWalletChangeListener;
 import de.schildbach.wallet.util.WalletUtils;
 import de.schildbach.wallet_aur.R;
+import org.auroracoin.AuroraBlockChain;
+import org.auroracoin.AuroraCoinPeerDBDiscovery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
+//import com.google.bitcoin.net.discovery.IrcDiscovery;
 
 /**
  * @author Andreas Schildbach, Litecoin Dev Team, AuroraCoin Dev Team
@@ -469,7 +447,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                             if(dbPeerDiscovery != null)
                                 peers.addAll(Arrays.asList(dbPeerDiscovery.getPeers(1, TimeUnit.SECONDS)));
 							log.info("Peer count "+ peers.size());
-                            //if (peers.size() < 2)
+                            if (peers.size() < 3)
                             {
     							log.info("Addind ircdiscovery peers ");
                                 try {
