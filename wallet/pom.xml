@@ -6,7 +6,7 @@
 
 	<artifactId>wallet</artifactId>
 	<packaging>apk</packaging>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<name>AuroraCoin Wallet</name>
 
 	<parent>
@@ -43,12 +43,12 @@
         </dependency>
 
 		<!-- com.actionbarsherlock.* -->
-		<dependency>
-			<groupId>com.actionbarsherlock</groupId>
-			<artifactId>actionbarsherlock</artifactId>
-			<version>4.4.0</version>
-			<type>apklib</type>
-		</dependency>
+        <dependency>
+            <groupId>com.actionbarsherlock</groupId>
+            <artifactId>library</artifactId>
+            <version>4.1.0</version>
+            <type>apklib</type>
+        </dependency>
 
 		<!-- com.google.bitcoin.* -->
 		<dependency>
@@ -201,7 +201,7 @@
             <plugin>
                 <groupId>com.jayway.maven.plugins.android.generation2</groupId>
                 <artifactId>android-maven-plugin</artifactId>
-                <version>3.8.2</version>
+                <version>3.8.0</version>
                 <inherited>true</inherited>
                 <configuration>
                     <excludeJarResources>
